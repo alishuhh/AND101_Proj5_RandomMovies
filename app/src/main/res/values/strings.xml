@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AND101 Proj 5 RandomMovies</string>
+    <string name= "instructions">Click the button\nto find a new movie!</string>
+
+</resources>
