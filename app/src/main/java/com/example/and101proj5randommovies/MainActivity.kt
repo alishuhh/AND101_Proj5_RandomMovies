@@ -4,19 +4,28 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import okhttp3.Headers
 
 class MainActivity : AppCompatActivity() {
+    var movieImageURL = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        var movieImage =  findViewById<ImageView>(R.id.movie_image)
         var movieButton = findViewById<Button>(R.id.movie_button)
         var movieTitle = findViewById<TextView>(R.id.movie_title)
         var movieGenre = findViewById<TextView>(R.id.movie_genre)
+
+        getMovieImageURL()
+        Log.d("movieImageURL", "movie image URL set")
+
+        //getNextImage(movieButton, movieImage)
     }
 
     //figure out api https://imdb-api.com/api#Report-header
@@ -29,7 +38,10 @@ class MainActivity : AppCompatActivity() {
 
         client["https://imdb-api.com/en/API/Posters/k_7o0ubhxp/tt1375666", object : JsonHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Headers, json: JsonHttpResponseHandler.JSON) {
-                Log.d("Dog", "response successful")
+                Log.d("Movie", "response successful")
+                //????
+                movieImageURL = json.jsonObject.getJSONArray("posters")
+
             }
 
             override fun onFailure(
@@ -38,9 +50,21 @@ class MainActivity : AppCompatActivity() {
                 errorResponse: String,
                 throwable: Throwable?
             ) {
-                Log.d("Dog Error", errorResponse)
+                Log.d("Movie Error", errorResponse)
             }
         }]
 
     }
+
+    /*private fun getNextImage(button: Button, imageView: ImageView) {
+        button.setOnClickListener {
+            getMovieImageURL()
+            Glide.with(this)
+                .load(movieImageURL)
+                .fitCenter()
+                .into(imageView)
+        }
+    }
+
+     */
 }
