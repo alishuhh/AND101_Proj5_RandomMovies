@@ -12,46 +12,52 @@ import com.bumptech.glide.Glide
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import okhttp3.Headers
+import okhttp3.internal.http2.Header
 
 
 class MainActivity : AppCompatActivity() {
+    var posterPathArray = mutableListOf<String>()
     var movieImageURL = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        var movieImage =  findViewById<ImageView>(R.id.movie_image)
-        var movieButton = findViewById<Button>(R.id.movie_button)
-        var movieTitle = findViewById<TextView>(R.id.movie_title)
-        var movieGenre = findViewById<TextView>(R.id.movie_genre)
-
         getMovieImageURL()
         Log.d("movieImageURL", "movie image URL set")
 
-        getNextImage(movieButton, movieImage)
-    }
 
-    //figure out api https://imdb-api.com/api#Report-header
-    //title https://imdb-api.com/en/API/Title/k_7o0ubhxp/tt1375666
-    //poster https://imdb-api.com/en/API/Posters/k_7o0ubhxp/tt1375666
-    //genre?
-    //wikipedia https://imdb-api.com/en/API/Wikipedia/k_7o0ubhxp/tt1375666
+        val movieImage =  findViewById<ImageView>(R.id.movie_image)
+        val movieButton = findViewById<Button>(R.id.movie_button)
+        val movieTitle = findViewById<TextView>(R.id.movie_title)
+        val movieGenre = findViewById<TextView>(R.id.movie_genre)
+
+       getNextImage(movieButton, movieImage)
+    }
     private fun getMovieImageURL() {
         val client = AsyncHttpClient()
 
-        client["https://imdb-api.com/en/API/Posters/k_7o0ubhxp/tt1375666", object : JsonHttpResponseHandler() {
+        client["https://api.themoviedb.org/3/movie/top_rated?api_key=30d9e089c0af0cb09de7bf8cd9fed339", object : JsonHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Headers, json: JSON) {
-                Log.d("Movie", "response successful")
 
-                val posters = json.jsonObject.getJSONArray("posters")
-                if(posters.length()>0){
-                    movieImageURL = posters.getJSONObject(0).getString("")
-                } else{
-                    movieImageURL = ""
+                //getting movie poster
+                val baseURL = "https://www.themoviedb.org/t/p/original"
+                var JSONArray = json.jsonObject.getJSONArray("results")
+                Log.d("Movie Image", "response successful")
+
+                for (i in 0 until JSONArray.length()) {
+                    posterPathArray.add(JSONArray.getJSONObject(i).getString("poster_path"))
+
+                    if (!posterPathArray.isEmpty()) {
+                        movieImageURL = baseURL+posterPathArray[i] // construct the URL for the poster image
+                    } else {
+                        // if the movie doesn't have a poster image, call the function again to get a new movie
+                        getMovieImageURL()
+                    }
                 }
-            }
+                //getting movie title
 
+            }
             override fun onFailure(
                 statusCode: Int,
                 headers: Headers?,

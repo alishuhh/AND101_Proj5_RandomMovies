@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">AND101 Proj 5 RandomMovies</string>
-    <string name= "instructions">Click the button\nto find a new movie!</string>
-
+    <string name= "instructions">Click the button\nto find your next movie!</string>
+    <string name= "api_key">30d9e089c0af0cb09de7bf8cd9fed339</string>
 </resources>
