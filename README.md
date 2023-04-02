@@ -36,7 +36,7 @@ My chosen API for this project is **IMDB API*.
 
 Here's a video / GIF that demos all of the app's implemented features:
 
-<img src='https://i.imgur.com/urrOZSc.gif' title='Video Demo' width='' alt='Video Demo' />
+<img src='https://i.imgur.com/VwWeX5O.gif' title='Video Demo' width='' alt='Video Demo' />
 
 GIF created with **ScreenToGIF**
 
