@@ -1,8 +1,6 @@
 package com.example.and101proj5randommovies
 
 import android.os.Bundle
-import android.os.StrictMode
-import android.os.StrictMode.VmPolicy
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
@@ -12,11 +10,10 @@ import com.bumptech.glide.Glide
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import okhttp3.Headers
-import okhttp3.internal.http2.Header
 
 
 class MainActivity : AppCompatActivity() {
-    var posterPathArray = mutableListOf<String>()
+    //var posterPathArray = mutableListOf<String>()
     var movieImageURL = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,20 +39,33 @@ class MainActivity : AppCompatActivity() {
 
                 //getting movie poster
                 val baseURL = "https://www.themoviedb.org/t/p/original"
-                var JSONArray = json.jsonObject.getJSONArray("results")
+                val movies = json.jsonObject.getJSONArray("results")
+                val randomMovieIndex = (0 until movies.length()).random()
+                val posterPath = movies.getJSONObject(randomMovieIndex).getString("poster_path")
+
+                if (posterPath.isNotEmpty()) {
+                    movieImageURL = baseURL + posterPath // construct the URL for the poster image
+                } else {
+                    // if the movie doesn't have a poster image, call the function again to get a new movie
+                    getMovieImageURL()
+                }
+
+                //first method i tried and couldn't get working COME BACK LATER
+                /*var JSONArray = json.jsonObject.getJSONArray("results")
                 Log.d("Movie Image", "response successful")
 
                 for (i in 0 until JSONArray.length()) {
                     posterPathArray.add(JSONArray.getJSONObject(i).getString("poster_path"))
-
-                    if (!posterPathArray.isEmpty()) {
+                }
+                for (i in 0 until posterPathArray.size) {
+                    if (posterPathArray[i].isNotEmpty()) {
                         movieImageURL = baseURL+posterPathArray[i] // construct the URL for the poster image
                     } else {
                         // if the movie doesn't have a poster image, call the function again to get a new movie
                         getMovieImageURL()
                     }
                 }
-                //getting movie title
+                 */
 
             }
             override fun onFailure(
