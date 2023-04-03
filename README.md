@@ -6,7 +6,7 @@ Time spent: **3** hours spent in total
 
 ## Summary
 
-**RandomMovies** is an android app that **shuffles through movies to find you a new watch**
+**RandomMovies** is an android app that **shuffles through top movies of all time to find you a new watch**
 
 If I had to describe this project in three (3) emojis, they would be: **🎥 , 📺 , 🍿**
 
