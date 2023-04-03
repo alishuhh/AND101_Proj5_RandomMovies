@@ -15,6 +15,9 @@ import okhttp3.Headers
 class MainActivity : AppCompatActivity() {
     //var posterPathArray = mutableListOf<String>()
     var movieImageURL = ""
+    var posterPath = ""
+    var title = ""
+    var releaseDate = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +44,11 @@ class MainActivity : AppCompatActivity() {
                 val baseURL = "https://www.themoviedb.org/t/p/original"
                 val movies = json.jsonObject.getJSONArray("results")
                 val randomMovieIndex = (0 until movies.length()).random()
-                val posterPath = movies.getJSONObject(randomMovieIndex).getString("poster_path")
+                val movie =  movies.getJSONObject(randomMovieIndex)
+
+                posterPath = movies.getJSONObject(randomMovieIndex).getString("poster_path")
+                title = movie.getString("original_title")
+                releaseDate = movie.getString("release_date")
 
                 if (posterPath.isNotEmpty()) {
                     movieImageURL = baseURL + posterPath // construct the URL for the poster image
@@ -87,7 +94,14 @@ class MainActivity : AppCompatActivity() {
                 .load(movieImageURL)
                 .fitCenter()
                 .into(imageView)
+
+            val movieTitle = findViewById<TextView>(R.id.movie_title)
+            movieTitle.text = title
+
+            val movieDate = findViewById<TextView>(R.id.movie_date)
+            movieDate.text = releaseDate
         }
+
     }
 
 
