@@ -2,8 +2,6 @@
 
 Submitted by: **Alisha Jafry**
 
-Time spent: **3** hours spent in total
-
 ## Summary
 
 **RandomMovies** is an android app that **shuffles through top movies of all time to find you a new watch**
@@ -46,7 +44,7 @@ Here's a place for any other notes on the app, it's creation process, or what yo
 
 ## License
 
-Copyright **2023** **Alisha jafry**
+Copyright **2023** **Alisha Jafry**
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
